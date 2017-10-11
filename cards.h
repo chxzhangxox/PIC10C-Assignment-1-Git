@@ -95,8 +95,8 @@ public:
     int get_money() const; //get player's money
     
     //Mutator
-    int set_money() const; //set player's money
-
+    int set_money(int n); //set player's money
+    
     
 private:
     int money;
