@@ -74,7 +74,51 @@ int main(){
                 cin >> response;
             }while (response == 'y' && myHand.sumCard() < 7.5);
         }
-
+        
+        //dealer draws a card
+        do{
+            dealerHand.draw_card();
+            if (dealerHand.size() > 1){
+                cout << "\nNew card:" << endl;    //print out the new card
+                dealerHand.print_to_console(dealerHand.size() - 1);
+            }
+            cout << "\nDealer's cards: " << endl;
+            dealerHand.print_to_console();
+            cout << "The dealer's total is " << dealerHand.sumCard() << "." << endl;
+        } while (dealerHand.sumCard() < 5.5);  //do it while the sum of card is less than 5.5
+        
+        /*determine the result of the game and set the money*/
+        if (myHand.sumCard() <= 7.5 && dealerHand.sumCard() > 7.5){
+            cout << "\nYou win " << bet << "." << endl;
+            player.set_money(bet);
+            dealer.set_money(-bet);
+        }
+        else if (myHand.sumCard() > 7.5 && dealerHand.sumCard() <= 7.5){
+            cout << "\nToo bad. You lose " << bet << "." << endl;
+            player.set_money(-bet);
+            dealer.set_money(bet);
+        }
+        else if ((myHand.sumCard() > 7.5) < (dealerHand.sumCard() > 7.5)){
+            cout << "\nToo bad. You lose " << bet << "." << endl;
+            player.set_money(-bet);
+            dealer.set_money(bet);
+        }
+        else if (pow(myHand.sumCard() - 7.5,2) > (pow(dealerHand.sumCard() - 7.5,2))){
+            cout << "\nToo bad. You lose " << bet << "." << endl;
+            player.set_money(-bet);
+            dealer.set_money(bet);
+        }
+        else if ((pow(myHand.sumCard() - 7.5,2)) < (pow(dealerHand.sumCard() - 7.5,2))){
+            cout << "\nYou win " << bet << "." << endl;
+            player.set_money(bet);
+            dealer.set_money(-bet);
+        }
+        else{
+            cout <<"\nNobody Wins!" << endl;
+            player.set_money(0);
+            dealer.set_money(0);
+        }
+        
         
     }
     return 0;
