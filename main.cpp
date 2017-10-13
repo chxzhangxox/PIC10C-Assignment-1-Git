@@ -58,6 +58,23 @@ int main(){
             cout << "You entered the bet more than the money you have" << endl;
             return 0;
         }
+        else{
+            do{
+                //player draws a card
+                myHand.draw_card();
+                if (myHand.size()>1){
+                    cout << "New card:" << endl;
+                    myHand.print_to_console(myHand.size() - 1);
+                    cout << "\nYour cards: " << endl;
+                }
+                else
+                    cout << "Your cards: " << endl;
+                myHand.print_to_console();
+                cout << "Your total is " << myHand.sumCard() << ". Do you want another card (y/n)?";
+                cin >> response;
+            }while (response == 'y' && myHand.sumCard() < 7.5);
+        }
+
         
     }
     return 0;
