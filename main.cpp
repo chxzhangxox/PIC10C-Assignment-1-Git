@@ -54,11 +54,7 @@ int main(){
         cout << "You have $" << player.get_money() << ". Enter bet: ";
         cin >> bet;
         
-        if (bet > player.get_money()){
-            cout << "You entered the bet more than the money you have" << endl;
-            return 0;
-        }
-        else{
+        if (bet <= player.get_money()){
             do{
                 //player draws a card
                 myHand.draw_card();
@@ -118,7 +114,8 @@ int main(){
             player.set_money(0);
             dealer.set_money(0);
             }
-        }
+        
+        
         /*print out the result to the file*/
         fout << "\n------------------------------------------------------" << endl;
         fout << "\n" << setw(WIDTH)<< left << gameNumber << setw(WIDTH) << left << moneyLeft << endl;  //set format
@@ -129,8 +126,14 @@ int main(){
         
         fout << "\nDealer's cards: " << endl;
         dealerHand.print_to_file(fout);  //print out dealer's hand card
-        fout << "Dealer's total is " << dealerHand.sumCard() << "." << endl;
+            fout << "Dealer's total is " << dealerHand.sumCard() << "." << endl;
+        }
+        else{
+            cout << "You entered a bet larger than the money you have" << endl;
+        }
     }
+    
+    
     
     /*print out the reason why the game is over: player has no money or the dealer has no money*/
     if (player.get_money() <= 0){
