@@ -73,53 +73,75 @@ int main(){
                 cout << "Your total is " << myHand.sumCard() << ". Do you want another card (y/n)?";
                 cin >> response;
             }while (response == 'y' && myHand.sumCard() < 7.5);
-        }
         
-        //dealer draws a card
-        do{
-            dealerHand.draw_card();
-            if (dealerHand.size() > 1){
+        
+            //dealer draws a card
+            do{
+                dealerHand.draw_card();
+                if (dealerHand.size() > 1){
                 cout << "\nNew card:" << endl;    //print out the new card
                 dealerHand.print_to_console(dealerHand.size() - 1);
-            }
-            cout << "\nDealer's cards: " << endl;
-            dealerHand.print_to_console();
-            cout << "The dealer's total is " << dealerHand.sumCard() << "." << endl;
-        } while (dealerHand.sumCard() < 5.5);  //do it while the sum of card is less than 5.5
+                }
+                cout << "\nDealer's cards: " << endl;
+                dealerHand.print_to_console();
+                cout << "The dealer's total is " << dealerHand.sumCard() << "." << endl;
+            } while (dealerHand.sumCard() < 5.5);  //do it while the sum of card is less than 5.5
         
-        /*determine the result of the game and set the money*/
-        if (myHand.sumCard() <= 7.5 && dealerHand.sumCard() > 7.5){
-            cout << "\nYou win " << bet << "." << endl;
-            player.set_money(bet);
-            dealer.set_money(-bet);
-        }
-        else if (myHand.sumCard() > 7.5 && dealerHand.sumCard() <= 7.5){
-            cout << "\nToo bad. You lose " << bet << "." << endl;
-            player.set_money(-bet);
-            dealer.set_money(bet);
-        }
-        else if ((myHand.sumCard() > 7.5) < (dealerHand.sumCard() > 7.5)){
-            cout << "\nToo bad. You lose " << bet << "." << endl;
-            player.set_money(-bet);
-            dealer.set_money(bet);
-        }
-        else if (pow(myHand.sumCard() - 7.5,2) > (pow(dealerHand.sumCard() - 7.5,2))){
-            cout << "\nToo bad. You lose " << bet << "." << endl;
-            player.set_money(-bet);
-            dealer.set_money(bet);
-        }
-        else if ((pow(myHand.sumCard() - 7.5,2)) < (pow(dealerHand.sumCard() - 7.5,2))){
-            cout << "\nYou win " << bet << "." << endl;
-            player.set_money(bet);
-            dealer.set_money(-bet);
-        }
-        else{
+            /*determine the result of the game and set the money*/
+            if (myHand.sumCard() <= 7.5 && dealerHand.sumCard() > 7.5){
+                cout << "\nYou win " << bet << "." << endl;
+                player.set_money(bet);
+                dealer.set_money(-bet);
+            }
+            else if (myHand.sumCard() > 7.5 && dealerHand.sumCard() <= 7.5){
+                cout << "\nToo bad. You lose " << bet << "." << endl;
+                player.set_money(-bet);
+                dealer.set_money(bet);
+            }
+            else if ((myHand.sumCard() > 7.5) < (dealerHand.sumCard() > 7.5)){
+                cout << "\nToo bad. You lose " << bet << "." << endl;
+                player.set_money(-bet);
+                dealer.set_money(bet);
+            }
+            else if (pow(myHand.sumCard() - 7.5,2) > (pow(dealerHand.sumCard() - 7.5,2))){
+                cout << "\nToo bad. You lose " << bet << "." << endl;
+                player.set_money(-bet);
+                dealer.set_money(bet);
+            }
+            else if ((pow(myHand.sumCard() - 7.5,2)) < (pow(dealerHand.sumCard() - 7.5,2))){
+                cout << "\nYou win " << bet << "." << endl;
+                player.set_money(bet);
+                dealer.set_money(-bet);
+            }
+            else{
             cout <<"\nNobody Wins!" << endl;
             player.set_money(0);
             dealer.set_money(0);
+            }
         }
+        /*print out the result to the file*/
+        fout << "\n------------------------------------------------------" << endl;
+        fout << "\n" << setw(WIDTH)<< left << gameNumber << setw(WIDTH) << left << moneyLeft << endl;  //set format
+        fout << "Bet: " << bet << endl;
+        fout << "\nYour cards: " << endl;
+        myHand.print_to_file(fout);  //print out player's hand card
+        fout << "Your total: " << myHand.sumCard() << "." << endl;
         
-        
+        fout << "\nDealer's cards: " << endl;
+        dealerHand.print_to_file(fout);  //print out dealer's hand card
+        fout << "Dealer's total is " << dealerHand.sumCard() << "." << endl;
     }
+    
+    /*print out the reason why the game is over: player has no money or the dealer has no money*/
+    if (player.get_money() <= 0){
+        cout << "\nYou have $0. GAME OVER!" << endl;
+        cout << "Come back when you have more money" << endl;
+    }
+    else{
+        cout << "The dealer loses 900. GAME OVER!" << endl;
+    }
+    
+    cout << "\nBye!" << endl;
+    
     return 0;
 }
